@@ -4,6 +4,7 @@ from discord.ext import commands
 import random
 
 from utils.search import find_words
+from utils.text_tool import prepare_syllable
 
 MAX_WORD_AMOUNT = 20
 
@@ -19,6 +20,8 @@ class Words(commands.Cog):
 
     @commands.hybrid_command(name="find", aliases=["c", "search"], description="Find words containing a specific syllable.")
     async def find(self, ctx: commands.Context, syllable: str):
+        syllable = prepare_syllable(syllable)
+
         results = find_words(self.wordlistAll, syllable)
 
         if not results:
@@ -36,6 +39,8 @@ class Words(commands.Cog):
 
     @commands.hybrid_command(name="long", aliases=["l"], description="Get a random long word.")
     async def long(self, ctx: commands.Context, syllable: str):
+        syllable = prepare_syllable(syllable)
+
         results = find_words(self.wordlistLongs, syllable)
 
         if not results:
@@ -53,6 +58,8 @@ class Words(commands.Cog):
         
     @commands.hybrid_command(name="hyphen", aliases=["h"], description="Get a random hyphenated word.")
     async def hyphen(self, ctx: commands.Context, syllable: str):
+        syllable = prepare_syllable(syllable)
+
         results = find_words(self.wordlistHyphen, syllable)
 
         if not results:
