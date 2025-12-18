@@ -42,7 +42,6 @@ bot = commands.Bot(command_prefix=".", intents=intents, help_command=None)
 @bot.event
 async def on_ready():
     logging.info(f'Logged in as {bot.user} (ID: {bot.user.id})')
-    logging.info('------')
     try:
         synced = await bot.tree.sync()
         logging.info(f'Synced {len(synced)} command(s)')
@@ -52,7 +51,7 @@ async def on_ready():
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        await ctx.send(f"❌ `{ctx.invoked_with}` existiert nicht.")
+        await ctx.send(f"❌ `{ctx.invoked_with}` existiert nicht. Siehe `/help` für eine Liste der Befehle.")
         return
     
     logging.error(f'Error in command {ctx.command}: {error}')

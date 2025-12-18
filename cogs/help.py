@@ -19,7 +19,7 @@ class Help(commands.Cog):
             pages.append(embed)
 
         view = Pages(pages)
-        await ctx.send(embed=pages[0], view=view)
+        await view.send(ctx)
 
 async def setup(bot):
     await bot.add_cog(Help(bot))
