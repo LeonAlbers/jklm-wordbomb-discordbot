@@ -10,3 +10,8 @@ def find_words(words: list[str], syllable: str) -> list[str]:
         list[str]: A list of words that contain the specified syllable.
     """
     return [word for word in words if syllable in word]
+
+import random
+
+def random_word(words: list[str]) -> str:
+    return random.choice(words)

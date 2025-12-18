@@ -10,8 +10,8 @@ dotenv.load_dotenv()
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
-logger = logging.getLogger()
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('jklm-wordbomb-bot')
+logger.setLevel(logging.INFO)
 
 # -------------------
 # File Handler (Log File)
@@ -31,6 +31,12 @@ console_format = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 console_handler.setFormatter(console_format)
 logger.addHandler(console_handler)
 
+discord_logger = logging.getLogger("discord")
+discord_logger.setLevel(logging.INFO)
+
+for h in logger.handlers:
+    discord_logger.addHandler(h)
+
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -41,12 +47,12 @@ bot = commands.Bot(command_prefix=".", intents=intents, help_command=None)
 # -------------------
 @bot.event
 async def on_ready():
-    logging.info(f'Logged in as {bot.user} (ID: {bot.user.id})')
+    logger.info(f'Logged in as {bot.user} (ID: {bot.user.id})')
     try:
         synced = await bot.tree.sync()
-        logging.info(f'Synced {len(synced)} command(s)')
+        logger.info(f'Synced {len(synced)} command(s)')
     except Exception as e:
-        logging.error(f'Error syncing commands: {e}')
+        logger.error(f'Error syncing commands: {e}')
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -54,7 +60,7 @@ async def on_command_error(ctx, error):
         await ctx.send(f"❌ `{ctx.invoked_with}` existiert nicht. Siehe `/help` für eine Liste der Befehle.")
         return
     
-    logging.error(f'Error in command {ctx.command}: {error}')
+    logger.error(f'Error in command {ctx.command}: {error}')
     await ctx.send(f'An error occurred: {str(error)}')
     return
 
@@ -62,22 +68,22 @@ async def load_cogs():
     # for cog in ['cogs.words']:
     #     try:
     #         await bot.load_extension(cog)
-    #         logging.info(f'Loaded cog: {cog}')
+    #         logger.info(f'Loaded cog: {cog}')
     #     except Exception as e:
-    #         logging.error(f'Failed to load cog {cog}: {e}')
+    #         logger.error(f'Failed to load cog {cog}: {e}')
     # for cog in ['cogs.help']:
     #     try:
     #         await bot.load_extension(cog)
-    #         logging.info(f'Loaded cog: {cog}')
+    #         logger.info(f'Loaded cog: {cog}')
     #     except Exception as e:
-    #         logging.error(f'Failed to load cog {cog}: {e}')
+    #         logger.error(f'Failed to load cog {cog}: {e}')
     try:
         await bot.load_extension('cogs.words')
-        logging.info('Loaded cog: cogs.words')
+        logger.info('Loaded cog: cogs.words')
         await bot.load_extension('cogs.help')
-        logging.info('Loaded cog: cogs.help')
+        logger.info('Loaded cog: cogs.help')
     except Exception as e:
-        logging.error(f'Failed to load cogs: {e}')
+        logger.error(f'Failed to load cogs: {e}')
 
 async def main():
     await load_cogs()
