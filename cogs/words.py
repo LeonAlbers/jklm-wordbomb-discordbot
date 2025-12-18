@@ -67,6 +67,6 @@ class Words(commands.Cog):
         
         enumerated = [f"{i+1}. {w}" for i, w in enumerate(results)]
         await ctx.send("```" + "\n".join(enumerated) + "```")
-        
+
 async def setup(bot):
     await bot.add_cog(Words(bot))

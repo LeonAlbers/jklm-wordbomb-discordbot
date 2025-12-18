@@ -34,7 +34,7 @@ logger.addHandler(console_handler)
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix=".", intents=intents)
+bot = commands.Bot(command_prefix=".", intents=intents, help_command=None)
 
 # -------------------
 # Events
@@ -60,12 +60,25 @@ async def on_command_error(ctx, error):
     return
 
 async def load_cogs():
-    for cog in ['cogs.words']:
-        try:
-            await bot.load_extension(cog)
-            logging.info(f'Loaded cog: {cog}')
-        except Exception as e:
-            logging.error(f'Failed to load cog {cog}: {e}')
+    # for cog in ['cogs.words']:
+    #     try:
+    #         await bot.load_extension(cog)
+    #         logging.info(f'Loaded cog: {cog}')
+    #     except Exception as e:
+    #         logging.error(f'Failed to load cog {cog}: {e}')
+    # for cog in ['cogs.help']:
+    #     try:
+    #         await bot.load_extension(cog)
+    #         logging.info(f'Loaded cog: {cog}')
+    #     except Exception as e:
+    #         logging.error(f'Failed to load cog {cog}: {e}')
+    try:
+        await bot.load_extension('cogs.words')
+        logging.info('Loaded cog: cogs.words')
+        await bot.load_extension('cogs.help')
+        logging.info('Loaded cog: cogs.help')
+    except Exception as e:
+        logging.error(f'Failed to load cogs: {e}')
 
 async def main():
     await load_cogs()
