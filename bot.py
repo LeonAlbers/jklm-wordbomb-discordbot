@@ -14,15 +14,6 @@ logger = logging.getLogger('jklm-wordbomb-bot')
 logger.setLevel(logging.INFO)
 
 # -------------------
-# File Handler (Log File)
-# -------------------
-file_handler = logging.FileHandler("log.log")
-file_handler.setLevel(logging.INFO)
-file_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-file_handler.setFormatter(file_format)
-logger.addHandler(file_handler)
-
-# -------------------
 # Stream Handler (Terminal)
 # -------------------
 console_handler = logging.StreamHandler()

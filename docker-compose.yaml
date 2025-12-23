@@ -1,0 +1,13 @@
+services:
+  discordbot:
+    build: .
+    restart: unless-stopped
+    container_name: jklm-bot
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
