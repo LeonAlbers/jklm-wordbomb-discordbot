@@ -1,5 +1,5 @@
 services:
-  discordbot:
+  jklm-bot:
     build: .
     restart: unless-stopped
     container_name: jklm-bot
